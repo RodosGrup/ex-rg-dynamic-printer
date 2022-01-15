@@ -1,0 +1,25 @@
+{
+  "name": "@rodos-grup/rg-dynamic-printer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RodosGrup/ex-rg-dynamic-printer.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RodosGrup/ex-rg-dynamic-printer/issues"
+  },
+  "homepage": "https://github.com/RodosGrup/ex-rg-dynamic-printer#readme",
+  "dependencies": {
+    "html2canvas": "^1.4.0",
+    "interactjs": "^1.10.11",
+    "jspdf": "^2.5.0",
+    "lodash": "^4.17.21"
+  }
+}
