@@ -23,10 +23,26 @@
     </div>
     <div class="rg-menu-container" v-if="eklemeButonlarDurum">
       <div class="rg-menu" v-if="!onizlemeDurum && aktifAlan">
+        <fieldset class="bilgi">
+          <template v-if="aktifAlanYazi">
+            <legend>Bilgi</legend>
+            <span>{{ aktifAlan.style.fontSize }}</span>
+            <span>{{ aktifAlan.style.color }}</span>
+          </template>
+          <!-- <input type="color" id="head" name="renk" value="#e66465" /> -->
+        </fieldset>
+      </div>
+      <div class="rg-menu" v-if="!onizlemeDurum && aktifAlan">
         <fieldset>
           <legend>Genel</legend>
           <button @click="buyut">Büyüt</button>
           <button @click="kucult">Küçült</button>
+          <input
+            type="color"
+            id="head"
+            name="renk"
+            v-model="aktifAlan.style.color"
+          />
           <!-- <input type="color" id="head" name="renk" value="#e66465" /> -->
         </fieldset>
         <fieldset>
@@ -581,6 +597,12 @@ export default {
         this.options.eklemeButonlar === true
       );
     },
+    aktifAlanYazi() {
+      return this.aktifAlan && this.aktifAlan.tur === "text";
+    },
+    aktifAlanImage() {
+      return this.aktifAlan && this.aktifAlan.tur === "image";
+    },
   },
 };
 </script>
@@ -614,6 +636,7 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 8px;
 }
 
 .cizim {
@@ -653,11 +676,11 @@ button {
 
 .rg-menu fieldset {
   display: flex;
-  margin: 0 8px;
   border-radius: 4px;
-  padding: 4px;
+  padding: 8px;
   align-items: center;
   justify-content: center;
+  gap: 8px;
 }
 
 .rg-menu fieldset legend {
@@ -669,7 +692,6 @@ button {
 .rg-menu button {
   padding: 8px;
   transition: all 0.2s;
-  margin: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -677,7 +699,6 @@ button {
 .rg-menu input {
   padding: 8px;
   transition: all 0.2s;
-  margin: 8px;
   border: 1px solid black;
   border-radius: 4px;
 }
@@ -745,12 +766,28 @@ button {
   background-color: #208b00;
 }
 
-/* .rg-menu input[type="color"] {
+.rg-menu input[type="color"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
   width: 25px;
   height: 25px;
+  padding: 0 !important;
+  background-color: transparent;
+  cursor: pointer;
 }
 
-.rg-menu button:not(:nth-child(2)) {
+.rg-menu input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.rg-menu input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px;
+}
+
+/* .rg-menu button:not(:nth-child(2)) {
   border-left: #ccc 1px solid;
 } */
 </style>
