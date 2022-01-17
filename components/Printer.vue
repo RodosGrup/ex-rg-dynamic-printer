@@ -15,7 +15,9 @@
               :id="alan.id"
               :style="alan.style"
             >
-              {{ alan.deger }}
+              <template v-if="alan.tur !== 'image'">
+                {{ alan.deger }}
+              </template>
             </div>
           </template>
         </div>
@@ -29,6 +31,7 @@
             <span>{{ aktifAlan.style.fontSize }}</span>
             <span>{{ aktifAlan.style.color }}</span>
           </template>
+          <button @click="sil(aktifAlan.id)" class="kaldir">SİL</button>
           <!-- <input type="color" id="head" name="renk" value="#e66465" /> -->
         </fieldset>
       </div>
@@ -66,6 +69,13 @@
             type="text"
             v-model="alanlar[aktifAlan.id].deger"
             name="deger"
+            @change="
+              alanDegeriDegisti({
+                id: aktifAlan.id,
+                event: $event,
+                tur: aktifAlan.tur,
+              })
+            "
           />
         </fieldset>
       </div>
@@ -430,11 +440,19 @@ export default {
         olcek: this.olcek,
       });
       console.log("export", cikti);
+
+      this.alanlariDisaAktarimIcinHazirla(false);
     },
-    alanlariDisaAktarimIcinHazirla() {
-      forEach(this.alanlar, (alan) => {
-        alan.style.border = "none";
-      });
+    alanlariDisaAktarimIcinHazirla(cikti = true) {
+      if (cikti) {
+        forEach(this.alanlar, (alan) => {
+          alan.style.border = "none";
+        });
+      } else {
+        forEach(this.alanlar, (alan) => {
+          alan.style.border = "1px dashed #000";
+        });
+      }
     },
     alanEkle({ tur }) {
       const baseId = Date.now();
@@ -465,12 +483,15 @@ export default {
       };
 
       if (tur === "text") {
+        this.alanlar[baseId].deger = "Deneme Yazı";
         this.alanlar[baseId].style.fontSize = "24px";
+        this.alanlar[baseId].style.color = "#000000";
       } else if (tur === "image") {
+        this.alanlar[baseId].deger = "https://picsum.photos/200/200";
+        this.alanlar[baseId].style.backgroundImage =
+          "url(https://picsum.photos/200/200)";
         this.alanlar[baseId].style.width = "200px";
         this.alanlar[baseId].style.height = "200px";
-        this.alanlar[baseId].style.background =
-          "url(https://picsum.photos/200/200)";
         this.alanlar[baseId].style.backgroundSize = "contain !important";
         this.alanlar[baseId].style.backgroundRepeat = "no-repeat";
         this.alanlar[baseId].style.backgroundPosition = "center";
@@ -479,6 +500,20 @@ export default {
       console.log("alanEkle", this.alanlar);
 
       this.alanlar = cloneDeep(this.alanlar);
+    },
+    sil(id) {
+      this.aktifAlan = null;
+      delete this.alanlar[id];
+      this.alanlar = cloneDeep(this.alanlar);
+    },
+    alanDegeriDegisti({ id, event, tur }) {
+      console.log("alanDegeriDegisti", event);
+      if (tur === "text") {
+        this.alanlar[id].deger = event.target.value;
+      } else if (tur === "image") {
+        this.alanlar[id].deger = event.target.value;
+        this.alanlar[id].style.backgroundImage = `url(${event.target.value})`;
+      }
     },
     indir(options = {}) {
       const _this = this;
@@ -764,6 +799,15 @@ button {
 
 .rg-menu button.indir:active {
   background-color: #208b00;
+}
+
+.rg-menu button.kaldir {
+  padding: 4px;
+  background-color: #ff0000;
+  color: white;
+  max-width: 100px;
+  height: 100%;
+  border-radius: 4px;
 }
 
 .rg-menu input[type="color"] {

@@ -1,10 +1,12 @@
 {
   "name": "@rodos-grup/rg-dynamic-printer",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "publish-p": "npm --no-git-tag-version version patch && npm publish",
+    "publish-m": "npm --no-git-tag-version version minor && npm publish",
+    "publish-mj": "npm --no-git-tag-version version major && npm publish"
   },
   "repository": {
     "type": "git",
@@ -21,5 +23,8 @@
     "interactjs": "^1.10.11",
     "jspdf": "^2.5.0",
     "lodash": "^4.17.21"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
