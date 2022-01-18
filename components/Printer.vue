@@ -198,7 +198,6 @@ export default {
             this._options.container.width = disContainer.width;
             this._options.container.height = disContainer.width;
           } else if (this._options.container.height > disContainer.height) {
-            console.log("YÜKSEKLİK PROBLEMİ");
           }
         }
         this.container.el.style.width = this._options.container.width + "px";
@@ -230,6 +229,8 @@ export default {
       }
 
       this.alanlar = cloneDeep(this._options.data.alanlar);
+
+      this.alanlariHazirla(this.onizlemeDurum);
 
       this.olcekInit();
 
@@ -433,7 +434,7 @@ export default {
       this.alanlar = cloneDeep(this.alanlar);
     },
     disaAktar() {
-      this.alanlariDisaAktarimIcinHazirla();
+      this.alanlariHazirla();
 
       const cikti = JSON.stringify({
         alanlar: this.alanlar,
@@ -441,9 +442,9 @@ export default {
       });
       console.log("export", cikti);
 
-      this.alanlariDisaAktarimIcinHazirla(false);
+      this.alanlariHazirla(false);
     },
-    alanlariDisaAktarimIcinHazirla(cikti = true) {
+    alanlariHazirla(cikti = true) {
       if (cikti) {
         forEach(this.alanlar, (alan) => {
           alan.style.border = "none";
@@ -497,8 +498,6 @@ export default {
         this.alanlar[baseId].style.backgroundPosition = "center";
       }
 
-      console.log("alanEkle", this.alanlar);
-
       this.alanlar = cloneDeep(this.alanlar);
     },
     sil(id) {
@@ -507,7 +506,6 @@ export default {
       this.alanlar = cloneDeep(this.alanlar);
     },
     alanDegeriDegisti({ id, event, tur }) {
-      console.log("alanDegeriDegisti", event);
       if (tur === "text") {
         this.alanlar[id].deger = event.target.value;
       } else if (tur === "image") {
